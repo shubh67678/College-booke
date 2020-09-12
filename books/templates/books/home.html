@@ -9,7 +9,7 @@
             <small class="text-muted">{{ post.date_posted | date:"F d, Y"}}</small>
             <small class="text-muted">{{ post.book_type}}</small>
             </div>
-            <h2><a class="article-title" href="#">{{ post.name }}</a></h2>
+            <h2><a class="article-title" href={%url 'books-detail' post.id%}>{{ post.name }}</a></h2>
             <p class="article-content">{{ post.description }}</p>
             <h5 class="mr-0"> Cost = {{post.price}} </h5>
             {%for a in books_type%}
