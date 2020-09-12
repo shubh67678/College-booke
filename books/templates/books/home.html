@@ -12,6 +12,13 @@
             <h2><a class="article-title" href="#">{{ post.name }}</a></h2>
             <p class="article-content">{{ post.description }}</p>
             <h5 class="mr-0"> Cost = {{post.price}} </h5>
+            {%for a in books_type%}
+            <p>
+                {%if a.book_id == post.id %}
+                {{a.book_type}}
+                {%endif%}
+            </p>            
+            {%endfor%}
         </div>
     </article>
     {%endfor%} 

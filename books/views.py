@@ -32,19 +32,20 @@ test_post = [
 
 def home(request):
     context = {
-        'books': book.objects.all()
+        'books': book.objects.all(),
+        'books_type': book_type.objects.all()
     }
     return render(request, 'books/home.html', context)
 
 
-class BookListView(ListView):
-    model = book
+# class BookListView(ListView):
+#     model = book
     # template_name = "books/home.html"
     # context_object_name = "books"
 
 
-class BookDetailView(DetailView):
-    model = book
+# class BookDetailView(DetailView):
+#     model = book
 
 
 def about(request):
