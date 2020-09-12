@@ -3,20 +3,28 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse
 # from .models import Post
+from .models import book, book_type
+# from django.views.generic import ListView
 
 test_post = [
     {
-        'title': 'a2',
-        'content': 'addd',
+        'name': 'book1',
+        'price': '100',
+        'description': 'test data',
         'date_posted': "10-1-10",
-        'author': 'user 1'
+        'author': 'John Green',
+        'user_id': '001',
+        'book_type': 'fiction'
 
     },
     {
-        'title': 'b3',
-        'content': 'sub',
-        'date_posted': "9-3-9",
-        'author': 'user 3'
+        'name': 'book2',
+        'price': '100',
+        'description': 'test2 data',
+        'date_posted': "10-1-10",
+        'author': 'Hank Green',
+        'user_id': '002',
+        'book_type': 'fiction'
 
     }
 ]
@@ -24,10 +32,11 @@ test_post = [
 
 def home(request):
     context = {
-        # 'posts': Post.objects.all()
-        'posts': test_post
+        'books': book.objects.all()
     }
     return render(request, 'books/home.html', context)
+
+# def
 
 
 def about(request):
