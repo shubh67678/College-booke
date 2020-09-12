@@ -1,0 +1,17 @@
+{% extends 'books/base.html'%} 
+{% block content%}   
+    <article class="media content-section">
+        {% comment %} <div class="media-body">
+            <div class="article-metadata">
+            <a class="mr-2" href="#">{{ post.user_id }}</a>
+            <small class="text-muted">{{ post.date_posted | date:"F d, Y"}}</small>
+            <small class="text-muted">{{ post.book_type}}</small>
+            </div>
+            <h2 class="article-title">{{ post.name }}</h2>
+            <p class="article-content">{{ post.description }}</p>
+            <h5 class="mr-0"> Cost = {{post.price}} </h5>
+        </div> {% endcomment %}
+        <p>{{object.book.name}}</p>
+        <p>{{object.book_type}}</p>
+    </article>
+{% endblock content%}

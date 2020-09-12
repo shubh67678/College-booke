@@ -47,6 +47,21 @@ def home(request):
 # class BookDetailView(DetailView):
 #     model = book
 
+def detail(request, *args, **kwargs):
+    primary_key = kwargs['pk']
+    a = book_type.objects.filter(book_id=primary_key)
+
+    context = {
+        'books': book.objects.filter(pk=primary_key),
+        'book_type': a
+    }
+
+    return render(request, 'books/detail.html', context)
+
+
+# class BookDetailView(DetailView):
+#     model = book_type.objects.filter(pk=pk)
+
 
 def about(request):
     return render(request, 'books/about.html', {'title': 'ABOUT'})
