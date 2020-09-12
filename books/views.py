@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # from .models import Post
 from .models import book, book_type
-# from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 test_post = [
     {
@@ -36,7 +36,15 @@ def home(request):
     }
     return render(request, 'books/home.html', context)
 
-# def
+
+class BookListView(ListView):
+    model = book
+    # template_name = "books/home.html"
+    # context_object_name = "books"
+
+
+class BookDetailView(DetailView):
+    model = book
 
 
 def about(request):
