@@ -52,10 +52,10 @@ d. Implement with functionality
 ### Shubham 
    
    1. ~~Create base.html~~
-   2. ~~Create templates for Common book display ~~  
-   3. ~~Create the dummy data for books  
-   4. ~~Create database for books 
-   5. ~~Link to database with Books
+   2. ~~Create templates for Common book display~~  
+   3. ~~Create the dummy data for books~~
+   4. ~~Create database for books~~ 
+   5. ~~Link to database with Books~~
 ***
 ### Manas 
    1. Create template for user 
