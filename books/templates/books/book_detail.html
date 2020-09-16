@@ -1,0 +1,20 @@
+{% extends 'books/base.html'%} 
+{% block content%}
+    
+   
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+            <a class="mr-2" href="#">{{ object.user}}</a>
+            <small class="text-muted">{{ object.date_posted | date:"F d, Y"}}</small>
+            
+            </div>
+            <h2><a class="article-title" href={%url 'books-detail' object.id%}>{{ object.name }}</a></h2>
+            <p class="article-content">{{ object.description }}</p>
+            <h5 class="mr-0"> Cost = {{object.price}} </h5>
+                       
+           
+        </div>
+    </article>
+    
+{% endblock content%}

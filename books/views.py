@@ -2,9 +2,14 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse
-# from .models import Post
 from .models import book, book_type
-from django.views.generic import ListView, DetailView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView
+)
 
 test_post = [
     {
@@ -38,14 +43,16 @@ def home(request):
     return render(request, 'books/home.html', context)
 
 
-# class BookListView(ListView):
-#     model = book
-    # template_name = "books/home.html"
-    # context_object_name = "books"
+class BookListView(ListView):
+    model = book
+    template_name = 'books/home2.html'  # <app>/<model>_<viewtype>.html
+    context_object_name = 'book'
+    # ordering = ['-date_posted']
 
 
-# class BookDetailView(DetailView):
-#     model = book
+class BookDetailView(DetailView):
+    model = book
+
 
 def detail(request, *args, **kwargs):
     primary_key = kwargs['pk']
