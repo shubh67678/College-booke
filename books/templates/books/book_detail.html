@@ -5,9 +5,12 @@
     <article class="media content-section">
         <div class="media-body">
             <div class="article-metadata">
-            <a class="mr-2" href="#">{{ object.user}}</a>
+            <a class="mr-2" href="{%url 'user-books' object.user.username%}">{{ object.user}}</a>
             <small class="text-muted">{{ object.date_posted | date:"F d, Y"}}</small>
-            
+            {%if object.user == user%}
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href={% url "books-update" object.id %}>Update</a>
+                <a class="btn btn-danger btn-sm mt-1 mb-1" href={% url "books-delete" object.id %}>delete</a>
+            {%endif%}
             </div>
             <h2><a class="article-title" href={%url 'books-detail' object.id%}>{{ object.name }}</a></h2>
             <p class="article-content">{{ object.description }}</p>
