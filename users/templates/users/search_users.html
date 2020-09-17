@@ -1,11 +1,16 @@
 {% extends 'books/base.html'%} 
 {% block content%}
-    <form action = "{%url "books-search"%}" method = "get"> 
-        <label for="book_search">Search</label> 
-        <input id="book_search" type="text" name="book_search" placeholder="Book Name"> 
+    <form action = "{%url "user-search"%}" method = "get"> 
+        <label for="user-search">Search</label> 
+        <input id="user-search" type="text" name="user-search" placeholder="User Name"> 
         <input type="submit" value="OK"> 
     </form> 
-   
+
+    <form action = "{%url "user-search"%}" method = "get"> 
+        <label for="user-search">Search</label> 
+        <input id="user-search" type="text" name="user-search" placeholder="User Name"> 
+        <input type="submit" value="OK"> 
+    </form>
     {% for post in book %}
 
     <article class="media content-section">

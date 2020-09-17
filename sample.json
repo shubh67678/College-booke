@@ -168,3 +168,12 @@
         "author": "NO name"
     }
 ]
+
+
+bk1 = book(name= bk[
+    "name"
+],description= bk[
+    "description"
+],user_id= bk[
+    "user_id"
+],price= 1000,author= "NO name")

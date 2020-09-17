@@ -119,6 +119,18 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 # class BookDetailView(DetailView):
 #     model = book_type.objects.filter(pk=pk)
+def search(request):
+
+    name = request.GET['book_search']
+    print(name)
+
+    a = book.objects.filter(name__contains=name)
+    context = {
+        "books": a,
+        "search_book": name
+    }
+    return render(request, 'books/search.html', context)
+    # return HttpResponse("hello whter")
 
 
 def about(request):

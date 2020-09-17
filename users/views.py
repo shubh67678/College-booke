@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
 
@@ -16,6 +17,17 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+def search(request):
+
+    name = request.GET['user_search']
+    print(name)
+
+    # a = user.objects.filter(name__contains=name)
+
+    # return render(request, 'books/search.html', context)
+    return HttpResponse("hello whter")
 
 
 @login_required
