@@ -1,10 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 # Create your views here.
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from .models import book, book_type
+from .models import book, book_type, request_book, transaction_confirmation
 from django.views.generic import (
     ListView,
     DetailView,
@@ -50,7 +50,7 @@ class BookListView(ListView):
     model = book
     template_name = 'books/home2.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'book'
-    # ordering = ['-date_posted']
+    ordering = ['-date_posted']
     paginate_by = 5
 
 
@@ -58,7 +58,7 @@ class UserBookListView(ListView):
     model = book
     template_name = 'books/user_books.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'book'
-    # ordering = ['-date_posted']
+    ordering = ['-date_posted']
     paginate_by = 5
 
     def get_queryset(self):
@@ -68,6 +68,58 @@ class UserBookListView(ListView):
 
 class BookDetailView(DetailView):
     model = book
+
+    def post(self, request, *args, **kwargs):
+        # if "approve_book" in request.POST:
+        if "make_new_request" in request.POST:
+            print(request.POST['make_new_request'])
+            cur_book = self.get_object()
+            new_request(cur_book, request)
+        return redirect("books-home")
+
+    def get_object(self):
+        obj = super(BookDetailView, self).get_object(queryset=None)
+        return obj
+
+
+def new_request(book, request):
+    cur_user = request.user
+    print(cur_user)
+    temp_req = request_book(to_user=cur_user, needs_book=book)
+    temp_req.save()
+
+
+class IncomingRequestListView(ListView):
+    model = request_book
+    template_name = 'books/book_incoming_request.html'
+
+
+class IncomingRequestDetailView(DetailView):
+    model = request_book
+
+    def post(self, request, *args, **kwargs):
+        if "approve_book" in request.POST:
+            cur_request = self.get_object()
+            # print("the curobject id", cur_obj)
+            cur_request.request_status = not cur_request.request_status  # edit this xxx
+            cur_request.save()
+            new_transaction(cur_request.to_user, cur_request.needs_book)
+            return redirect("user-request")
+
+    def get_object(self):
+        obj = super(IncomingRequestDetailView, self).get_object(queryset=None)
+        return obj
+ # def get_queryset(self):
+ #     user = get_object_or_404(User, username=self.kwargs.get('username'))
+ #     return request_book.objects.filter(needs_book.user == user).order_by("price")
+
+
+def new_transaction(buying_user, buying_book, *arg):
+    print(buying_book, buying_user)
+    print(transaction_confirmation.objects.all())
+    if transaction_confirmation.objects.filter(bought_book=buying_book) == None:
+        temp_transcation = transaction_confirmation(bought_book=buying_book)
+        temp_transcation.save()
 
 
 class BookCreateView(LoginRequiredMixin, CreateView):
@@ -122,7 +174,6 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 def search(request):
 
     name = request.GET['book_search']
-    print(name)
 
     a = book.objects.filter(name__contains=name)
     context = {

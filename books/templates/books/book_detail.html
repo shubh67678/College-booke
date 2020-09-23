@@ -11,12 +11,18 @@
                 <a class="btn btn-secondary btn-sm mt-1 mb-1" href={% url "books-update" object.id %}>Update</a>
                 <a class="btn btn-danger btn-sm mt-1 mb-1" href={% url "books-delete" object.id %}>delete</a>
             {%endif%}
+            {%if object.user != user%}
+            <form method="POST">
+             {% csrf_token %}
+                <button class="btn btn-secondary btn-sm mt-1 mb-1"  type = "submit" name = "make_new_request" value ="new_one">Request</button>
+
+            </form>
+            {%endif%}
+            
             </div>
             <h2><a class="article-title" href={%url 'books-detail' object.id%}>{{ object.name }}</a></h2>
             <p class="article-content">{{ object.description }}</p>
             <h5 class="mr-0"> Cost = {{object.price}} </h5>
-                       
-           
         </div>
     </article>
     

@@ -1,0 +1,19 @@
+{% extends 'books/base.html'%} 
+{% block content%}
+    
+    {{object}}
+   
+    
+    {%for request in object_list%}
+        <article class="media content-section">
+        <div class="media-body">
+            <h1>{{request.to_user.username}}</h1>
+            <h2><a class="article-title" href={%url 'request-detail' request.id%}>{{ request.needs_book.name }}</a></h2>
+
+            <h1>{{request.needs_book.user.username}}</h1>
+            <h1>{{request.request_status}}</h1>
+        </div>
+    </article>
+    {%endfor%}
+    
+{% endblock content%}
