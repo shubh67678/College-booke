@@ -62,7 +62,8 @@ class UserBookListView(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        user = get_object_or_404(User, username=self.kwargs.get(
+            'username'))  # gets the username from url
         return book.objects.filter(user=user).order_by("price")
 
 
@@ -92,6 +93,7 @@ def new_request(book, request):
 class IncomingRequestListView(ListView):
     model = request_book
     template_name = 'books/book_incoming_request.html'
+    ordering = ['needs_book']
 
 
 class IncomingRequestDetailView(DetailView):
@@ -116,10 +118,24 @@ class IncomingRequestDetailView(DetailView):
 
 def new_transaction(buying_user, buying_book, *arg):
     print(buying_book, buying_user)
-    print(transaction_confirmation.objects.all())
+    # print(transaction_confirmation.objects.all())
     if transaction_confirmation.objects.filter(bought_book=buying_book) == None:
         temp_transcation = transaction_confirmation(bought_book=buying_book)
         temp_transcation.save()
+
+
+class UserRequestIncomingListView(ListView):
+    model = request_book
+    template_name = "books/user_request_incoming_list.html"
+
+    def get_queryset(self):
+        cur_user = get_object_or_404(User, username=self.kwargs.get(
+            'requsername'))  # gets the username from url
+        print(cur_user)
+        cur_user_books = book.objects.filter(user=cur_user)
+
+        # joins and filters
+        return request_book.objects.filter(needs_book__user=cur_user)
 
 
 class BookCreateView(LoginRequiredMixin, CreateView):

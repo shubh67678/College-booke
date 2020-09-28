@@ -9,8 +9,8 @@
         <div class="media-body">
             <h1><a class="article-title" href={%url 'request-detail' request.id%}>{{ request.needs_book.name }}</a></h1>
 
-            <h2>{{request.to_user.username}} (to user) </h2>
-            <h2>{{request.needs_book.user.username}}(book owner)</h2>
+            <h2>{{request.to_user.username}} </h2>
+            <h2>{{request.needs_book.user.username}}</h2>
             <h4>for now the request{{request.request_status}}</h4>
         </div>
     </article>

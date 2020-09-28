@@ -9,7 +9,8 @@ from .views import (BookListView,
                     BookDeleteView,
                     UserBookListView,
                     IncomingRequestListView,
-                    IncomingRequestDetailView
+                    IncomingRequestDetailView,
+                    UserRequestIncomingListView,
                     )
 urlpatterns = [
     # path('', views.home, name="books-home"),
@@ -18,6 +19,8 @@ urlpatterns = [
     path('request/', IncomingRequestListView.as_view(), name="user-request"),
     path('request/<int:pk>', IncomingRequestDetailView.as_view(),
          name="request-detail"),
+    path('request/<str:requsername>/', UserRequestIncomingListView.as_view(),
+         name="user-request-incoming"),
     path('book/<int:pk>/', BookDetailView.as_view(), name="books-detail"),
     path('book/search/', views.search, name="books-search"),
     path('book/new/', BookCreateView.as_view(), name="books-create"),
