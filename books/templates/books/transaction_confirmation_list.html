@@ -1,0 +1,11 @@
+{% extends 'books/base.html'%} 
+{% block content%}    
+    {%for transaction in object_list%}
+        <article class="media content-section">
+        <div class="media-body">
+            {{transaction.bought_book}}
+        </div>
+    </article>
+    {%endfor%}
+    
+{% endblock content%} 

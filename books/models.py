@@ -16,6 +16,9 @@ class book(models.Model):
     def get_absolute_url(self):
         return reverse("books-detail", kwargs={"pk": self.pk})
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class book_type(models.Model):
     book = models.ForeignKey(book, on_delete=models.CASCADE)
@@ -27,9 +30,18 @@ class request_book(models.Model):
     needs_book = models.ForeignKey(book, on_delete=models.CASCADE)
     request_status = models.BooleanField(default=False)
 
+    class Meta:  # used to add constraints and other extra things
+        unique_together = (('to_user'), ('needs_book'))
+
+    def __str__(self):
+        return f'{self.to_user} needs {self.needs_book}'
+
 
 class transaction_confirmation(models.Model):
     bought_book = models.OneToOneField(
         book, on_delete=models.CASCADE, )
     date_time = models.DateTimeField(default=timezone.now)
     transaction_done = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.bought_book} got sold'

@@ -1,0 +1,24 @@
+
+
+  
+{% extends "books/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="content-section">
+    <div class="media">
+      <div class="media-body">
+        <h2 class="account-heading">{{ user.username }}</h2>
+        <p class="text-secondary">{{ user.email }}</p>
+        <a class="list-group-item list-group-item-light" href="{%url 'user-books' user.username%}">books for sale</a>
+        <a class="list-group-item list-group-item-light" href="{%url 'user-request-incoming' user.username%}">request incoming</a>
+        <a class="list-group-item list-group-item-light" href="{%url 'user-request-outgoing' user.username%}">request sent</a>
+        <a class="list-group-item list-group-item-light" href="{%url 'user-sold-books' %}">Books sold</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %} 
+
+
+{% comment %} {% extends "books/base.html" %} {% load crispy_forms_tags %} {% block content%}
+<h1>{{ user.username }}</h1>
+{% endblock content%} {% endcomment %}

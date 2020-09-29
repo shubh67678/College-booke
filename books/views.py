@@ -85,7 +85,7 @@ class BookDetailView(DetailView):
 
 def new_request(book, request):
     cur_user = request.user
-    print(cur_user)
+    # print(cur_user)
     temp_req = request_book(to_user=cur_user, needs_book=book)
     temp_req.save()
 
@@ -118,10 +118,21 @@ class IncomingRequestDetailView(DetailView):
 
 def new_transaction(buying_user, buying_book, *arg):
     print(buying_book, buying_user)
+
     # print(transaction_confirmation.objects.all())
-    if transaction_confirmation.objects.filter(bought_book=buying_book) == None:
+    if transaction_confirmation.objects.filter(bought_book=buying_book).first() == None:
+        print(transaction_confirmation.objects.filter(bought_book=buying_book))
+        print(transaction_confirmation.objects.filter(
+            bought_book=buying_book).first())
         temp_transcation = transaction_confirmation(bought_book=buying_book)
         temp_transcation.save()
+        delete_requested_book(buying_book)
+        print("new transaction made")
+
+
+def delete_requested_book(request_del):
+    # while request_book.objects.filter(needs_book=request_del).first() !=None:
+    request_book.objects.filter(needs_book=request_del).delete()
 
 
 class UserRequestIncomingListView(ListView):
@@ -129,13 +140,31 @@ class UserRequestIncomingListView(ListView):
     template_name = "books/user_request_incoming_list.html"
 
     def get_queryset(self):
-        cur_user = get_object_or_404(User, username=self.kwargs.get(
-            'requsername'))  # gets the username from url
-        print(cur_user)
+        # gets the username from url
+        cur_user = get_object_or_404(
+            User, username=self.kwargs.get('requsername'))
         cur_user_books = book.objects.filter(user=cur_user)
 
         # joins and filters
         return request_book.objects.filter(needs_book__user=cur_user)
+
+
+class UserRequestOutgoingListView(ListView):
+    model = request_book
+    template_name = "books/user_request_incoming_list.html"
+
+    def get_queryset(self):
+        cur_user = get_object_or_404(
+            User, username=self.kwargs.get('requsername'))  # gets the username from url
+        print('out', cur_user)
+
+        # joins and filters
+        return request_book.objects.filter(to_user=cur_user)
+
+
+class TransactionCompletedListView(ListView):
+    model = transaction_confirmation
+    template_name = "books/transaction_confirmation_list.html"
 
 
 class BookCreateView(LoginRequiredMixin, CreateView):
@@ -173,6 +202,32 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
+def search(request):
+
+    name = request.GET['book_search']
+
+    a = book.objects.filter(name__contains=name)
+    context = {
+        "books": a,
+        "search_book": name
+    }
+    return render(request, 'books/search.html', context)
+    # return HttpResponse("hello whter")
+
+
+def user_profile_links(request):
+
+    context = {
+        'user': request.user
+    }
+    return render(request, 'books/user_profile_to_links.html', context)
+    # return HttpResponse("hello whter")
+
+
+def about(request):
+    return render(request, 'books/about.html', {'title': 'ABOUT'})
+
+
 # def detail(request, *args, **kwargs):
 #     primary_key = kwargs['pk']
 #     a = book_type.objects.filter(book_id=primary_key)
@@ -187,18 +242,3 @@ class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 # class BookDetailView(DetailView):
 #     model = book_type.objects.filter(pk=pk)
-def search(request):
-
-    name = request.GET['book_search']
-
-    a = book.objects.filter(name__contains=name)
-    context = {
-        "books": a,
-        "search_book": name
-    }
-    return render(request, 'books/search.html', context)
-    # return HttpResponse("hello whter")
-
-
-def about(request):
-    return render(request, 'books/about.html', {'title': 'ABOUT'})
