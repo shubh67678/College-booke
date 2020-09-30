@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from .models import book, book_type, request_book, transaction_confirmation
+from users.models import Profile
 from django.views.generic import (
     ListView,
     DetailView,
@@ -135,7 +136,7 @@ def delete_requested_book(request_del):
     request_book.objects.filter(needs_book=request_del).delete()
 
 
-class UserRequestIncomingListView(ListView):
+class UserRequestIncomingListView(LoginRequiredMixin, UserPassesTestMixin,  ListView):
     model = request_book
     template_name = "books/user_request_incoming_list.html"
 
@@ -148,8 +149,14 @@ class UserRequestIncomingListView(ListView):
         # joins and filters
         return request_book.objects.filter(needs_book__user=cur_user)
 
+    def test_func(self):
+        info_of_user = self.kwargs.get('requsername')
+        if self.request.user == info_of_user:
+            return True
+        return False
 
-class UserRequestOutgoingListView(ListView):
+
+class UserRequestOutgoingListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = request_book
     template_name = "books/user_request_incoming_list.html"
 
@@ -161,10 +168,17 @@ class UserRequestOutgoingListView(ListView):
         # joins and filters
         return request_book.objects.filter(to_user=cur_user)
 
+    def test_func(self):
+        info_of_user = self.kwargs.get('requsername')
+        if self.request.user == info_of_user:
+            return True
+        return False
+
 
 class TransactionCompletedListView(ListView):
     model = transaction_confirmation
     template_name = "books/transaction_confirmation_list.html"
+    paginate_by = 5
 
 
 class BookCreateView(LoginRequiredMixin, CreateView):
@@ -218,8 +232,10 @@ def search(request):
 def user_profile_links(request):
 
     context = {
-        'user': request.user
+        'user': request.user,
+        'profile': Profile.objects.filter(user=request.user).first()
     }
+    print(Profile.objects.filter(user=request.user))
     return render(request, 'books/user_profile_to_links.html', context)
     # return HttpResponse("hello whter")
 
