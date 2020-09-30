@@ -107,8 +107,11 @@ class IncomingRequestDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         if "approve_book" in request.POST:
             cur_request = self.get_object()
+            if cur_request.to_user == request.user:
+                messages.error(request, "cant approve own request")
+                return redirect("user-request")
             # print("the curobject id", cur_obj)
-            cur_request.request_status = not cur_request.request_status  # edit this xxx
+            cur_request.request_status = True
             cur_request.save()
             new_transaction(cur_request.to_user, cur_request.needs_book)
             return redirect("user-request")
@@ -154,8 +157,14 @@ class UserRequestIncomingListView(LoginRequiredMixin, UserPassesTestMixin,  List
         return request_book.objects.filter(needs_book__user=cur_user)
 
     def test_func(self):
+
         info_of_user = self.kwargs.get('requsername')
-        if self.request.user == info_of_user:
+        pk_for_user = User.objects.filter(username=info_of_user)
+        # print(self.request.user, info_of_user, pk_for_user)
+        # print(type(self.request.user), type(
+        #     info_of_user), type(pk_for_user.first()))
+        # used to compare objects
+        if self.request.user == pk_for_user.first():
             return True
         return False
 
@@ -173,8 +182,14 @@ class UserRequestOutgoingListView(LoginRequiredMixin, UserPassesTestMixin, ListV
         return request_book.objects.filter(to_user=cur_user)
 
     def test_func(self):
+
         info_of_user = self.kwargs.get('requsername')
-        if self.request.user == info_of_user:
+        pk_for_user = User.objects.filter(username=info_of_user)
+        # print(self.request.user, info_of_user, pk_for_user)
+        # print(type(self.request.user), type(
+        #     info_of_user), type(pk_for_user.first()))
+        # used to compare objects
+        if self.request.user == pk_for_user.first():
             return True
         return False
 
@@ -240,6 +255,17 @@ def user_profile_links(request):
     context = {
         'user': request.user,
         'profile': Profile.objects.filter(user=request.user).first()
+    }
+    print(Profile.objects.filter(user=request.user))
+    return render(request, 'books/user_profile_to_links.html', context)
+    # return HttpResponse("hello whter")
+
+
+def foregin_user_profile(request, in_username):
+    user = User.objects.filter(username=in_username).first()
+    context = {
+        'user': user,
+        'profile': Profile.objects.filter(user=user).first()
     }
     print(Profile.objects.filter(user=request.user))
     return render(request, 'books/user_profile_to_links.html', context)

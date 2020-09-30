@@ -67,22 +67,20 @@
 			{%endif%}
 			{% block content %}{% endblock %}
 		</div>
+		{%if user.is_authenticated%}
 		<div class="col-md-4">
-		<div class="content-section">
-			<h3>Our Sidebar</h3>
-			<p class='text-muted'>You can put any information here you'd like.
-			<ul class="list-group">
-			
-				<a class="list-group-item list-group-item-light" href="/request/">All requests</a>
-				<a class="list-group-item list-group-item-light" href="/request/">All requests</a>
-				<li a herf = /request/ class="list-group-item list-group-item-light" >Latest Posts</li></a>
-				<li class="list-group-item list-group-item-light">Announcements</li>
-				<li class="list-group-item list-group-item-light">Calendars</li>
-				<li class="list-group-item list-group-item-light">etc</li>
-			</ul>
-			</p>
-		</div>
+			<div class="content-section">
+				<h3>{{user.username}}</h3>
+				<ul class="list-group">
+					<a class="list-group-item list-group-item-light" href="{%url 'user-books' user.username%}">books for sale</a>
+					<a class="list-group-item list-group-item-light" href="{%url 'user-request-incoming' user.username%}">request incoming</a>
+					<a class="list-group-item list-group-item-light" href="{%url 'user-request-outgoing' user.username%}">request sent</a>
+					<a class="list-group-item list-group-item-light" href="{%url 'user-sold-books' %}">Books sold</a>
+				</ul>
+				</p>
+			</div>
 		</div>  
+		{%endif%}
 	</div>
 	</main> 
 	<!-- Optional JavaScript -->

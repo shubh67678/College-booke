@@ -7,12 +7,12 @@
             <h1>{{object.to_user.username}}</h1>
             <h1>{{object.needs_book.name}}</h1>
             <h1>{{object.needs_book.user.username}}</h1>
-            <h1>{{object.request_status}}</h1>
+            {% comment %} <h1>{{object.request_status}}</h1> {% endcomment %}
            
 
              <form method="POST">
              {% csrf_token %}
-                <button type="submit" name="approve_book" value="YES">Done</button>
+                <button class="btn btn-dark" type="submit" name="approve_book" value="YES">Done</button>
             </form>
     </form> 
         </div>

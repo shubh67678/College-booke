@@ -11,7 +11,7 @@
 
             <h2>{{request.to_user.username}} (to user) </h2>
             <h2>{{request.needs_book.user.username}}(book owner)</h2>
-            <h4>for now the request{{request.request_status}}</h4>
+            {% comment %} <h4>for now the request{{request.request_status}}</h4> {% endcomment %}
         </div>
     </article>
     {%endfor%}

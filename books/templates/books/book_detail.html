@@ -4,7 +4,7 @@
     <article class="media content-section">
         <div class="media-body">
             <div class="article-metadata">
-            <a class="mr-2" href="{%url 'user-books' object.user.username%}">{{ object.user}}</a>
+            <a class="mr-2" href="{%url 'user-profile' object.user.username%}">{{ object.user}}</a>
             <small class="text-muted">{{ object.date_posted | date:"F d, Y"}}</small>
             {%if object.user == user%}
                 <a class="btn btn-secondary btn-sm mt-1 mb-1" href={% url "books-update" object.id %}>Update</a>
