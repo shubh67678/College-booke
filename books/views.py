@@ -224,10 +224,12 @@ def search(request):
 
     name = request.GET['book_search']
 
-    a = book.objects.filter(name__contains=name)
+    all_books_with_name = book.objects.filter(name__contains=name)
+    number_of_results = book.objects.filter(name__contains=name).count()
     context = {
-        "books": a,
-        "search_book": name
+        "books": all_books_with_name,
+        "search_book": name,
+        "number_books_found": number_of_results
     }
     return render(request, 'books/search.html', context)
     # return HttpResponse("hello whter")

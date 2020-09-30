@@ -1,10 +1,10 @@
 {% extends 'books/base.html'%} 
 {% block content%}
-    <form action = "{%url "books-search"%}" method = "get"> 
+    {% comment %} <form action = "{%url "books-search"%}" method = "get"> 
         <label for="book_search">Search</label> 
         <input id="book_search" type="text" name="book_search" placeholder="Book Name"> 
         <input type="submit" value="OK"> 
-    </form> 
+    </form>  {% endcomment %}
    
     {% for post in book %}
 

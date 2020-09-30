@@ -1,13 +1,9 @@
 {% extends 'books/base.html'%} 
 {% block content%}
-    <form action = "{%url "books-search"%}" method = "get"> 
-        <label for="book_search">Search</label> 
-        <input id="book_search" type="text" name="book_search" placeholder="Book Name"> 
-        <input type="submit" value="OK"> 
+   
 
-    </form>
-
-    <h3>Search results for {{search_book}}</h3>
+    <h3>Search results for "{{search_book}}"</h3>
+    <h3> Found {{number_books_found}} result</h3>
 
     {% for post in books %}
    

@@ -21,7 +21,7 @@
 	</head>
 	<body>
 	<header class="site-header">
-	<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
 		<div class="container">
 		<a class="navbar-brand mr-4" href="/">College BookE</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,8 +29,9 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarToggle">
 			<div class="navbar-nav mr-auto">
-			<a class="nav-item nav-link" href="/">Home</a>
-			<a class="nav-item nav-link" href="/about">About</a>
+			<form class="form-inline my-2 my-md-0" action = "{%url "books-search"%}" method = "get"> 
+       			<input class="form-control" id="book_search" type="text" name="book_search" placeholder="Search Book"> 
+			</form>
 			</div>
 			<!-- Navbar Right Side -->
 			<div class="navbar-nav">
@@ -44,8 +45,14 @@
 			{% endif %}
 			</div>
 		</div>
+		
+		
+        {% comment %} <form class="form-inline my-2 my-md-0">
+			<input class="form-control" type="text" placeholder="Search">
+		</form> {% endcomment %}
+    </form> 
 		</div>
-	</nav>
+	</nav> 
 	</header>
 	 <main role="main" class="container">
 	
@@ -77,7 +84,7 @@
 		</div>
 		</div>  
 	</div>
-	</main>
+	</main> 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
