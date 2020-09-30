@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from django.contrib.messages import constants as messages  # color the messages
 from pathlib import Path
 import os
 
@@ -129,3 +130,6 @@ MEDIA_URL = '/media/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'books-home'
 LOGIN_URL = 'login'
+MESSAGE_TAGS = {  # color the message
+    messages.ERROR: 'danger',
+}

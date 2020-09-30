@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-
+from django.contrib import messages
+from django.db import IntegrityError
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 # Create your views here.
 from django.http import HttpResponse
@@ -88,7 +89,10 @@ def new_request(book, request):
     cur_user = request.user
     # print(cur_user)
     temp_req = request_book(to_user=cur_user, needs_book=book)
-    temp_req.save()
+    try:
+        temp_req.save()
+    except IntegrityError:
+        messages.error(request, 'Cannot request multiple times')
 
 
 class IncomingRequestListView(ListView):
